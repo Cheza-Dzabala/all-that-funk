@@ -7,7 +7,7 @@ const PublicRegistration = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
