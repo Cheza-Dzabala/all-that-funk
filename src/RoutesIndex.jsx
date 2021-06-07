@@ -6,6 +6,7 @@ import PageNotFound from "./catch/PageNotFound";
 import GetStarted from "./getStarted/GetStarted";
 import Home from "./home/Home";
 import { routes } from "./routes";
+import PageViewLogger from "./shared/PageViewLogger";
 import Wrapper from "./wrappers/Wrapper";
 
 const RoutesIndex = () => {
@@ -28,6 +29,7 @@ const RoutesIndex = () => {
           <Wrapper component={PageNotFound} />
         </Route>
       </Switch>
+      <PageViewLogger />
     </Router>
   );
 };
