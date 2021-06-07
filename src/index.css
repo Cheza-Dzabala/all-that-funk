@@ -2,6 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    [type='text'],
+    [type='email'],
+    [type='url'],
+    [type='password'],
+    [type='number'],
+    [type='date'],
+    [type='datetime-local'],
+    [type='month'],
+    [type='search'],
+    [type='tel'],
+    [type='time'],
+    [type='week'],
+    [multiple],
+    textarea,
+    select {
+        @apply text-sm p-2 tracking-wider placeholder-gray-500 h-10  text-gradient-start rounded focus:ring-0 focus:border-none border-none;
+    }
+    [type='checkbox'] {
+        @apply rounded text-gradient-start focus:ring-0 border-gradient-start focus:border-none;
+    }
+}
 @layer components {
     .navbar {
         @apply w-full mb-10 flex justify-between font-bold;
@@ -15,6 +37,31 @@
     }
     .player {
         @apply flex p-4 h-20 w-96 bg-gradient-to-br from-black via-gradient-start to-black shadow-lg rounded border-gradient-start items-start absolute bottom-6 right-4;
+    }
+
+    .split-screen {
+        @apply flex flex-col md:flex-row justify-evenly h-full;
+    }
+
+    .half-screen {
+        @apply w-full md:w-1/2 px-2 h-full flex justify-center items-center;
+    }
+
+    .checkbox {
+        @apply flex items-center space-x-2;
+    }
+    .auth-card {
+        @apply bg-white rounded flex flex-col justify-center p-5 h-auto w-2/3;
+    }
+    .card-leading-text {
+        @apply font-medium text-xl tracking-widest bg-gradient-start text-white p-2 rounded my-5 flex justify-center uppercase;
+    }
+    .auth-screen-leading-text {
+        @apply text-4xl tracking-widest font-light;
+    }
+    
+    .form {
+        @apply flex flex-col space-y-5;
     }
 }
 

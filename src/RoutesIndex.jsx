@@ -1,12 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PublicLogin from "./auth/PublicLogin";
+import PublicRegistration from "./auth/PublicRegistration";
 import PageNotFound from "./catch/PageNotFound";
 import GetStarted from "./getStarted/GetStarted";
 import Home from "./home/Home";
 import { routes } from "./routes";
 import Wrapper from "./wrappers/Wrapper";
 
-const Routes = () => {
+const RoutesIndex = () => {
   return (
     <Router>
       <Switch>
@@ -16,12 +18,18 @@ const Routes = () => {
         <Route exact path={routes.getStarted}>
           <Wrapper component={GetStarted} />
         </Route>
+        <Route exact path={routes.login}>
+          <Wrapper component={PublicLogin} />
+        </Route>
+        <Route exact path={routes.register}>
+          <Wrapper component={PublicRegistration} />
+        </Route>
         <Route path="*">
-          <PageNotFound />
+          <Wrapper component={PageNotFound} />
         </Route>
       </Switch>
     </Router>
   );
 };
 
-export default Routes;
+export default RoutesIndex;

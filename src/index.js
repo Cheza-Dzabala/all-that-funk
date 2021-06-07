@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { FirebaseAppProvider } from "reactfire";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import Routes from "./Routes";
+import RoutesIndex from "./RoutesIndex";
 import { FIREBASE_CONFIG } from "./config";
 ReactDOM.render(
   <React.StrictMode>
     <FirebaseAppProvider firebaseConfig={FIREBASE_CONFIG}>
-      <Routes />
+      <RoutesIndex />
     </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById("root")
