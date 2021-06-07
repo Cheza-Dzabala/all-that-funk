@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
+import { useAuth, useFirestore } from "reactfire";
+import "firebase/auth";
+import "firebase/firestore";
+import { FIRESTORE_COLLECTIONS } from "../config";
 
 const PublicLogin = () => {
   const [accepted, setAccepted] = useState(false);
+  const auth = useAuth();
   const { register, handleSubmit } = useForm();
-
+  const userDetialsCollection = useFirestore().collection(
+    FIRESTORE_COLLECTIONS.usersCollection
+  );
   const onSubmit = (data) => {
     if (!accepted) {
       swal(
@@ -15,6 +22,31 @@ const PublicLogin = () => {
       );
     } else {
       console.log(data);
+      auth
+        .signInWithEmailAndPassword(data.email, data.password)
+        .then(({ user }) => {
+          // console.log(user);
+          userDetialsCollection
+            .doc(user.uid)
+            .get()
+            .then((response) => {
+              const userData = response.data();
+              if (!userData.isActivated) {
+                swal(
+                  "Disabled!",
+                  "This account has been disabled. Please contact the Admin for further assistance.",
+                  "warning"
+                );
+                auth.signOut();
+              } else {
+                console.log("Proceed");
+              }
+            });
+          // swal("success", "we in!", "success");
+        })
+        .catch((err) => {
+          swal("Error", err.message, "error");
+        });
     }
   };
   const onAccept = () => {

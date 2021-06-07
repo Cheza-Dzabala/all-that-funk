@@ -7,3 +7,7 @@ export const FIREBASE_CONFIG = {
   appId: "1:406573342509:web:b43c41d3687a78eab53da4",
   measurementId: "G-BTY0XWX9FM",
 };
+
+export const FIRESTORE_COLLECTIONS = {
+  usersCollection: "users",
+};

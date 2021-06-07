@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuth, useFirestore } from "reactfire";
+import "firebase/auth";
+import "firebase/firestore";
 import swal from "sweetalert";
+import { FIRESTORE_COLLECTIONS } from "../config";
 const PublicRegistration = () => {
   const [accepted, setAccepted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const auth = useAuth();
+  const userDetialsCollection = useFirestore().collection(
+    FIRESTORE_COLLECTIONS.usersCollection
+  );
 
   const {
     handleSubmit,
@@ -20,7 +29,35 @@ const PublicRegistration = () => {
     } else if (data.password !== data.confirmPassword) {
       swal("Password Problem", "Your Passwords do not match", "error");
     } else {
-      console.log(data);
+      setIsLoading(!isLoading);
+      auth
+        .createUserWithEmailAndPassword(data.email, data.password)
+        .then(({ user }) => {
+          userDetialsCollection
+            .doc(user.uid)
+            .set({
+              firstName: data.firstName,
+              lastName: data.lastName,
+              performerName: data.performerName,
+              email: data.email,
+              verified: false,
+              superAdmin: false,
+              isActivated: true,
+            })
+            .then((res) => {
+              setIsLoading(!isLoading);
+              swal(
+                "Success",
+                "Your account has been created, you will be notified once activated (Usually within 48 hours).",
+                "success"
+              );
+            });
+        })
+        .catch((err) => {
+          setIsLoading(!isLoading);
+          console.log({ err });
+          swal("Prooblem Registering Your Account", err.message, "error");
+        });
     }
   };
 
@@ -48,7 +85,7 @@ const PublicRegistration = () => {
             />
             <input
               type="text"
-              name="ArtistName"
+              name="performerName"
               placeholder="Performer Name"
               {...register("performerName", { required: true })}
             />
@@ -56,6 +93,7 @@ const PublicRegistration = () => {
               type="email"
               name="email"
               placeholder="Email"
+              autoComplete="Email Address"
               {...register("email", { required: true })}
             />
             <input
@@ -87,7 +125,7 @@ const PublicRegistration = () => {
                 </span>
               </label>
             </div>
-            <button className="button" type="submit">
+            <button className="button" type="submit" disabled={isLoading}>
               Register
             </button>
           </form>
